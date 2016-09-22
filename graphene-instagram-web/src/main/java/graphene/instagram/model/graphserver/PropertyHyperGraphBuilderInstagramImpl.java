@@ -1,14 +1,29 @@
 package graphene.instagram.model.graphserver;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.avro.AvroRemoteException;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.PostInjection;
+import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.slf4j.Logger;
+
 import graphene.dao.DocumentBuilder;
+import graphene.dao.G_Parser;
 import graphene.dao.GraphTraversalRuleService;
 import graphene.dao.es.JestModule;
 import graphene.model.idl.G_CanonicalPropertyType;
 import graphene.model.idl.G_CanonicalRelationshipType;
 import graphene.model.idl.G_DataAccess;
+import graphene.model.idl.G_Entity;
 import graphene.model.idl.G_EntityQuery;
 import graphene.model.idl.G_PropertyType;
 import graphene.model.idl.G_SearchResult;
+import graphene.model.idlhelper.PropertyHelper;
 import graphene.model.idlhelper.PropertyMatchDescriptorHelper;
 import graphene.model.idlhelper.QueryHelper;
 import graphene.model.idlhelper.SingletonRangeHelper;
@@ -16,24 +31,11 @@ import graphene.services.AbstractGraphBuilder;
 import graphene.util.DataFormatConstants;
 import graphene.util.StringUtils;
 import graphene.util.validator.ValidationUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import mil.darpa.vande.generic.V_GenericEdge;
 import mil.darpa.vande.generic.V_GenericGraph;
 import mil.darpa.vande.generic.V_GenericNode;
 import mil.darpa.vande.generic.V_GraphQuery;
 import mil.darpa.vande.generic.V_LegendItem;
-
-import org.apache.avro.AvroRemoteException;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.PostInjection;
-import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.slf4j.Logger;
 
 /**
  * This version uses Elastic Search to dynamically generate a graph, without
@@ -306,4 +308,6 @@ public class PropertyHyperGraphBuilderInstagramImpl extends AbstractGraphBuilder
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 }
