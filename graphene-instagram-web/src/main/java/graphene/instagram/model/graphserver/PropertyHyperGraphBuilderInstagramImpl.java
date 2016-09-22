@@ -8,6 +8,7 @@ import graphene.model.idl.G_CanonicalRelationshipType;
 import graphene.model.idl.G_DataAccess;
 import graphene.model.idl.G_EntityQuery;
 import graphene.model.idl.G_PropertyType;
+import graphene.model.idl.G_SearchResult;
 import graphene.model.idlhelper.PropertyMatchDescriptorHelper;
 import graphene.model.idlhelper.QueryHelper;
 import graphene.model.idlhelper.SingletonRangeHelper;
@@ -28,6 +29,7 @@ import mil.darpa.vande.generic.V_GenericNode;
 import mil.darpa.vande.generic.V_GraphQuery;
 import mil.darpa.vande.generic.V_LegendItem;
 
+import org.apache.avro.AvroRemoteException;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.PostInjection;
 import org.apache.tapestry5.ioc.annotations.Symbol;
@@ -297,5 +299,11 @@ public class PropertyHyperGraphBuilderInstagramImpl extends AbstractGraphBuilder
 		listOfTypesToAlwaysKeep.add(G_CanonicalPropertyType.CUSTOMER_NUMBER.name());
 		listOfTypesToAlwaysKeep.add(G_CanonicalPropertyType.ENTITY.name());
 		listOfTypesToAlwaysKeep.add(G_CanonicalPropertyType.REPORT_ID.name());
+	}
+
+	@Override
+	public boolean execute(G_SearchResult sr, G_EntityQuery q) throws AvroRemoteException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

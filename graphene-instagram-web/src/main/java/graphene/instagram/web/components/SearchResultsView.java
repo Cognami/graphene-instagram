@@ -1,33 +1,5 @@
 package graphene.instagram.web.components;
 
-import graphene.dao.G_Parser;
-import graphene.dao.LoggingDAO;
-import graphene.dao.StyleService;
-import graphene.dao.es.JestModule;
-import graphene.instagram.model.graphserver.InstagramParser;
-import graphene.model.idl.G_Constraint;
-import graphene.model.idl.G_DataAccess;
-import graphene.model.idl.G_Entity;
-import graphene.model.idl.G_EntityQuery;
-import graphene.model.idl.G_EntityQueryEvent;
-import graphene.model.idl.G_Property;
-import graphene.model.idl.G_PropertyType;
-import graphene.model.idl.G_SearchResult;
-import graphene.model.idl.G_SearchResults;
-import graphene.model.idl.G_SymbolConstants;
-import graphene.model.idl.G_User;
-import graphene.model.idl.G_UserDataAccess;
-import graphene.model.idl.G_Workspace;
-import graphene.model.idlhelper.ListRangeHelper;
-import graphene.model.idlhelper.PropertyHelper;
-import graphene.model.idlhelper.PropertyMatchDescriptorHelper;
-import graphene.model.idlhelper.QueryHelper;
-import graphene.util.DataFormatConstants;
-import graphene.util.Triple;
-import graphene.util.Tuple;
-import graphene.util.validator.ValidationUtils;
-import graphene.web.pages.CombinedEntitySearchPage;
-
 import java.text.Format;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -59,6 +31,33 @@ import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.got5.tapestry5.jquery.ImportJQueryUI;
 import org.slf4j.Logger;
+
+import graphene.dao.G_Parser;
+import graphene.dao.LoggingDAO;
+import graphene.dao.StyleService;
+import graphene.dao.es.JestModule;
+import graphene.instagram.model.graphserver.InstagramParser;
+import graphene.model.idl.G_Constraint;
+import graphene.model.idl.G_DataAccess;
+import graphene.model.idl.G_Entity;
+import graphene.model.idl.G_EntityQuery;
+import graphene.model.idl.G_Property;
+import graphene.model.idl.G_PropertyType;
+import graphene.model.idl.G_SearchResult;
+import graphene.model.idl.G_SearchResults;
+import graphene.model.idl.G_SymbolConstants;
+import graphene.model.idl.G_User;
+import graphene.model.idl.G_UserDataAccess;
+import graphene.model.idl.G_Workspace;
+import graphene.model.idlhelper.ListRangeHelper;
+import graphene.model.idlhelper.PropertyHelper;
+import graphene.model.idlhelper.PropertyMatchDescriptorHelper;
+import graphene.model.idlhelper.QueryHelper;
+import graphene.util.DataFormatConstants;
+import graphene.util.Triple;
+import graphene.util.Tuple;
+import graphene.util.validator.ValidationUtils;
+import graphene.web.pages.CombinedEntitySearchPage;
 
 /**
  * This will be interesting now that we're using G_Properties. We may need
@@ -252,19 +251,19 @@ public class SearchResultsView {
 	}
 
 	public List<Tuple<String, String>> getAllAts() {
-		return (List<Tuple<String, String>>) PropertyHelper.getListValue(getEntity().getProperties().get(
-				InstagramParser.ALL_ATS));
+		return (List<Tuple<String, String>>) PropertyHelper
+				.getListValue(getEntity().getProperties().get(InstagramParser.ALL_ATS));
 	}
 
 	public List<Tuple<String, String>> getAllHashTags() {
-		return (List<Tuple<String, String>>) PropertyHelper.getListValue(getEntity().getProperties().get(
-				InstagramParser.ALL_HASHTAGS));
+		return (List<Tuple<String, String>>) PropertyHelper
+				.getListValue(getEntity().getProperties().get(InstagramParser.ALL_HASHTAGS));
 	}
 
 	public Double getAmount() {
 
-		final Double d = (Double) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				G_Parser.TOTALAMOUNTNBR));
+		final Double d = (Double) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(G_Parser.TOTALAMOUNTNBR));
 		if (d == null) {
 			return 0.0d;
 		} else {
@@ -273,18 +272,18 @@ public class SearchResultsView {
 	}
 
 	public Collection<Tuple<String, String>> getAtsInCaption() {
-		return (Collection<Tuple<String, String>>) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.ATS_IN_CAPTION));
+		return (Collection<Tuple<String, String>>) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(InstagramParser.ATS_IN_CAPTION));
 	}
 
 	public Collection<Tuple<String, String>> getAtsInComments() {
-		return (Collection<Tuple<String, String>>) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.ATS_IN_COMMENTS));
+		return (Collection<Tuple<String, String>>) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(InstagramParser.ATS_IN_COMMENTS));
 	}
 
 	public Collection<G_Property> getCIdentifierList() {
-		return (Collection<G_Property>) PropertyHelper.getListValue(getEntity().getProperties().get(
-				G_Parser.SUBJECTCIDLIST));
+		return (Collection<G_Property>) PropertyHelper
+				.getListValue(getEntity().getProperties().get(G_Parser.SUBJECTCIDLIST));
 	}
 
 	public String getDate() {
@@ -320,7 +319,7 @@ public class SearchResultsView {
 				sq.setUsername(getUser().getUsername());
 			}
 
-//			loggingDao.recordQuery(sq);
+			// loggingDao.recordQuery(sq);
 			// No workspaces
 			// if (workspacesEnabled && currentSelectedWorkspaceExists) {
 			// List<G_EntityQuery> qo =
@@ -334,18 +333,22 @@ public class SearchResultsView {
 			// currentSelectedWorkspace);
 			// }
 			metaresults = dao.search(sq);
-			
-			G_EntityQueryEvent qe = new G_EntityQueryEvent(sq, (long)metaresults.getResults().size());
-	        loggingDao.recordQueryEvent(qe);
-			
-//			if ((metaresults == null) || (metaresults.getResults().size() == 0)) {
-//				alertManager.alert(Duration.TRANSIENT, Severity.INFO, "No results found.");
-//				resultShowingCount = 0;
-//				resultTotalCount = 0;
-//			} else {
-//				alertManager.alert(Duration.TRANSIENT, Severity.SUCCESS, "Showing " + metaresults.getResults().size()
-//						+ " of " + metaresults.getTotal() + " results found.");
-//			}
+
+			// G_EntityQueryEvent qe = new G_EntityQueryEvent(sq,
+			// (long)metaresults.getResults().size());
+			// loggingDao.recordQueryEvent(qe);
+
+			// if ((metaresults == null) || (metaresults.getResults().size() ==
+			// 0)) {
+			// alertManager.alert(Duration.TRANSIENT, Severity.INFO, "No results
+			// found.");
+			// resultShowingCount = 0;
+			// resultTotalCount = 0;
+			// } else {
+			// alertManager.alert(Duration.TRANSIENT, Severity.SUCCESS, "Showing
+			// " + metaresults.getResults().size()
+			// + " of " + metaresults.getTotal() + " results found.");
+			// }
 		} catch (final Exception e) {
 			alertManager.alert(Duration.TRANSIENT, Severity.ERROR, e.getMessage());
 			e.printStackTrace();
@@ -383,8 +386,9 @@ public class SearchResultsView {
 			sq.setMaxResult((long) maxResults);
 
 			metaresults = getEntities(sq);
-			G_EntityQueryEvent qe = new G_EntityQueryEvent(sq, (long)metaresults.getResults().size());
-	        loggingDao.recordQueryEvent(qe);
+			// G_EntityQueryEvent qe = new G_EntityQueryEvent(sq,
+			// (long)metaresults.getResults().size());
+			// loggingDao.recordQueryEvent(qe);
 
 		} else {
 			alertManager.alert(Duration.TRANSIENT, Severity.INFO, "Invalid value to search on.");
@@ -412,13 +416,13 @@ public class SearchResultsView {
 	}
 
 	public Collection<Tuple<String, String>> getHashTagsInCaption() {
-		return (Collection<Tuple<String, String>>) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.HASHTAGS_IN_CAPTION));
+		return (Collection<Tuple<String, String>>) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(InstagramParser.HASHTAGS_IN_CAPTION));
 	}
 
 	public Collection<Tuple<String, String>> getHashTagsInComments() {
-		return (Collection<Tuple<String, String>>) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.HASHTAGS_IN_COMMENTS));
+		return (Collection<Tuple<String, String>>) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(InstagramParser.HASHTAGS_IN_COMMENTS));
 	}
 
 	/**
@@ -439,13 +443,13 @@ public class SearchResultsView {
 	}
 
 	public String getMediaCaption() {
-		return (String) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.MEDIA_CAPTION_TEXT));
+		return (String) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(InstagramParser.MEDIA_CAPTION_TEXT));
 	}
 
 	public String getMediaCommentCount() {
-		return String.valueOf(PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.MEDIA_COMMENT_COUNT)));
+		return String.valueOf(
+				PropertyHelper.getSingletonValue(getEntity().getProperties().get(InstagramParser.MEDIA_COMMENT_COUNT)));
 	}
 
 	public Object getMediaCreatedTime() {
@@ -457,18 +461,18 @@ public class SearchResultsView {
 	}
 
 	public String getMediaLikeCount() {
-		return String.valueOf(PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.MEDIA_LIKE_COUNT)));
+		return String.valueOf(
+				PropertyHelper.getSingletonValue(getEntity().getProperties().get(InstagramParser.MEDIA_LIKE_COUNT)));
 	}
 
 	public String getMediaLocationLatLon() {
-		return (String) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.MEDIA_LOCATION_LATLON));
+		return (String) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(InstagramParser.MEDIA_LOCATION_LATLON));
 	}
 
 	public String getMediaLocationName() {
-		return (String) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.MEDIA_LOCATION_NAME));
+		return (String) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(InstagramParser.MEDIA_LOCATION_NAME));
 	}
 
 	public String getMediaOwner() {
@@ -480,8 +484,8 @@ public class SearchResultsView {
 	}
 
 	public String getMediaThumbnail() {
-		return (String) PropertyHelper.getSingletonValue(getEntity().getProperties().get(
-				InstagramParser.MEDIA_THUMBNAIL));
+		return (String) PropertyHelper
+				.getSingletonValue(getEntity().getProperties().get(InstagramParser.MEDIA_THUMBNAIL));
 	}
 
 	protected Messages getMessages() {
@@ -535,12 +539,7 @@ public class SearchResultsView {
 
 	public JSONObject getOptions() {
 
-		final JSONObject json = new JSONObject(
-				"bJQueryUI",
-				"true",
-				"bAutoWidth",
-				"true",
-				"sDom",
+		final JSONObject json = new JSONObject("bJQueryUI", "true", "bAutoWidth", "true", "sDom",
 				"<\"col-sm-4\"f><\"col-sm-4\"i><\"col-sm-4\"l><\"row\"<\"col-sm-12\"p><\"col-sm-12\"r>><\"row\"<\"col-sm-12\"t>><\"row\"<\"col-sm-12\"ip>>");
 		// Sort by score then by date.
 		json.put("aaSorting",
@@ -560,8 +559,8 @@ public class SearchResultsView {
 		columnArray.put(new JSONObject("mDataProp", properties[columnArray.length()][0], "bSortable", "true", "sWidth",
 				properties[columnArray.length()][1], "sType", "string"));
 
-		columnArray.put(new JSONObject("mDataProp", properties[columnArray.length()][0], "bSortable", "false",
-				"sWidth", properties[columnArray.length()][1], "sType", "html"));
+		columnArray.put(new JSONObject("mDataProp", properties[columnArray.length()][0], "bSortable", "false", "sWidth",
+				properties[columnArray.length()][1], "sType", "html"));
 
 		columnArray.put(new JSONObject("mDataProp", properties[columnArray.length()][0], "bSortable", "true", "sWidth",
 				properties[columnArray.length()][1], "sType", "date"));
